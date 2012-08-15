@@ -21,9 +21,9 @@
 			reset: function(){
 				img.each(function(i){				
 					if(i === 0)
-						img.eq(i).css({ "position" : "absolute", "display" : "", "z-index" : totalImages - i }).addClass("current");
+						img.eq(i).css({ "position" : "absolute", "display" : "", "opacity" : 1, "z-index" : totalImages - i }).addClass("current");
 					else
-						img.eq(i).css({ "position" : "absolute", "display" : "none", "z-index" : (totalImages - i) }).removeClass("current");
+						img.eq(i).css({ "position" : "absolute", "display" : "none", "opacity" : 1, "z-index" : (totalImages - i) }).removeClass("current");
 				});
 			}
 		});
@@ -117,10 +117,10 @@
 		};
 		
 		function switchImages(currentIndex){
-			var startIndex = $(timer).parent().find("img[class*='current']").index();
+			var startIndex = $(timer).parent().find("img[class*='current']").prevAll("img").length;
 			
 			if(currentIndex === null)
-				currentIndex = $(timer).parent().find("img").eq(startIndex).index() + 1;
+				currentIndex = $(timer).parent().find("img").eq(startIndex).prevAll("img").length + 1;
 			else
 				selected = 1;
 			
@@ -139,7 +139,7 @@
 					currentIndex++;
 						
 				if(currentIndex < totalImages)
-					currentIndex = $(timer).parent().find("img").eq(currentIndex).index();
+					currentIndex = $(timer).parent().find("img").eq(currentIndex).prevAll("img").length;
 				else
 					currentIndex = 0;
 				
