@@ -94,9 +94,10 @@
 		};
 		
 		function init(timer){
-			var link = "";
-			var current = "";
-			var tallestHeight = 0;
+			var link = "", 
+				current = "", 
+				tallestHeight = 0, 
+				height;
 			
 			img.each(function(i){
 				if(i === 0){
@@ -108,13 +109,12 @@
 					current = "";
 				}
 				
-				var height = img.eq(i).height();
-				
-				if(height > tallestHeight){
-					tallestHeight = height;
-				}
-				
-				jQuery(".carousel").height(tallestHeight + 20);
+				$("<img/>").attr("src", $(img.eq(i)).attr("src")).load(function() {
+			        if(this.height > tallestHeight)
+						tallestHeight = this.height;
+						
+					jQuery(".carousel").height(tallestHeight + 20);
+				});
 				
 				link += "<a class='picture-link " + current + "' href='javascript:void(0)' rel='" + i + "'>Pic / <span style='color: " + timer.timerColor + "'>0" + (i + 1) + "</span></a>";
 			});
