@@ -96,6 +96,7 @@
 		function init(timer){
 			var link = "";
 			var current = "";
+			var tallestHeight = 0;
 			
 			img.each(function(i){
 				if(i === 0){
@@ -106,7 +107,15 @@
 					img.eq(i).css({ "position" : "absolute", "display" : "none", "z-index" : (totalImages - i) });
 					current = "";
 				}
-					
+				
+				var height = img.eq(i).height();
+				
+				if(height > tallestHeight){
+					tallestHeight = height;
+				}
+				
+				jQuery(".carousel").height(tallestHeight + 20);
+				
 				link += "<a class='picture-link " + current + "' href='javascript:void(0)' rel='" + i + "'>Pic / <span style='color: " + timer.timerColor + "'>0" + (i + 1) + "</span></a>";
 			});
 			
