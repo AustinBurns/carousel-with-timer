@@ -40,9 +40,10 @@
 	color: #FFF;
 	float: left;
 	margin: 0 0 4px 10px;
-	font: 11px/10px 'Museo Slab W01 700';
+	font: 11px/10px helvetica;
 	opacity: 0.5;
 	text-decoration: none;
+	font-weight: bold;
 }
 
 .timer a:hover, .timer a.current{
@@ -55,10 +56,12 @@
 }
 
 .carousel{
-	width: 400px;
+	width: 100%;
 	position: relative;
+	margin: 0 auto;
 }
 
 .carousel img{
-	width: 100%;
+	top: 0;
+	bottom: 10px;
 }
