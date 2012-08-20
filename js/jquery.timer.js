@@ -48,7 +48,7 @@
 		
 		$.extend(this, defaults, settings);
 		//Get the images and find out the total length to be used in the init function
-		var img = $(this).parent().find("img");
+		var img = $(this).parent().find(".timer-img");
 			totalImages = img.length;
 			
 		if(this.height !== "100%" || this.width !== "100%"){
@@ -193,11 +193,11 @@
 		function switchImages(currentIndex){
 			
 			//Get the index of the image with class of "current"
-			var startIndex = $(timer).parent().find("img[class*='current']").prevAll("img").length;
+			var startIndex = $(timer).parent().find("img[class*='current']").prevAll(".timer-img").length;
 			
 			if(currentIndex === null)
 				//Get the index of the image that will loaded next 
-				currentIndex = $(timer).parent().find("img").eq(startIndex).prevAll("img").length + 1;
+				currentIndex = $(timer).parent().find(".timer-img").eq(startIndex).prevAll(".timer-img").length + 1;
 			else
 				selected = 1;
 			
@@ -222,7 +222,7 @@
 				  to start the count over to go back to the first image
 				*/		
 				if(currentIndex < totalImages)
-					currentIndex = $(timer).parent().find("img").eq(currentIndex).prevAll("img").length;
+					currentIndex = $(timer).parent().find(".timer-img").eq(currentIndex).prevAll(".timer-img").length;
 				else
 					currentIndex = 0;
 				
