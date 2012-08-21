@@ -25,23 +25,27 @@
 			reset: function(){
 				img.each(function(i){				
 					if(i === 0)
-						img.eq(i).css({ 
-										"position" : "absolute", 
-										"display"  : "", 
-										"opacity"  : 1, 
-										"width"    : timer.width,
-										"height"   : timer.height,
-										"z-index"  : totalImages - i 
-									  }).addClass("current");
+						img.eq(i)
+						   .css({ 
+								"position" : "absolute", 
+								"display"  : "", 
+								"opacity"  : 1, 
+								"width"    : timer.width,
+								"height"   : timer.height,
+								"z-index"  : totalImages - i 
+							   })
+						   .addClass("current");
 					else
-						img.eq(i).css({ 
-										"position" : "absolute", 
-										"display"  : "none", 
-										"opacity"  : 1,
-										"width"    : timer.width,
-										"height"   : timer.height,
-										"z-index"  : totalImages - i
-									  }).removeClass("current");
+						img.eq(i)
+						   .css({ 
+								"position" : "absolute", 
+								"display"  : "none", 
+								"opacity"  : 1,
+								"width"    : timer.width,
+								"height"   : timer.height,
+								"z-index"  : totalImages - i
+							   })
+						   .removeClass("current");
 				});
 			}
 		});
@@ -62,20 +66,26 @@
 			
 			var timer = this,
 				timerProgress = timer.find(".timer-progress"),
-				pause = timer.find(".pause"),
 				outerDiv = $(timer).parent(),
 				time = (timer.seconds) + (timer.minutes * 60),
 				interval = time * 0.01 * 1000,
 				percent = 0,
 				currentIndex = null,
-				clicked = 0,
-				selected = 0;
+				selected = 0,
+				pauseplay,
+				intID;
 			
-			/*
-			  Set the setInterval ID so when the mouse hovers over the image we can
-			  use the setInterval ID to destroy the current interval thus causing a "pause" in the timer
-			*/
-			var intID = window.setInterval(function(){progressBar()}, interval);
+			//If Autoplay is set to false change the pause button to a play button and show the progress bar but do not start timer
+			if(timer.autoplay === 0){
+				pauseplay = "play";
+				timer.find(".pause").removeClass("pause").addClass("play");
+				progressBar();
+			}
+			//If set to true, start the timer
+			else{
+				pauseplay = "pause";
+				intID = startTimer();	
+			}
 			
 			/*
 			  If the outer div (div class carousel) is hovered over the setInterval is destroyed 
@@ -83,22 +93,23 @@
 			*/
 			$(outerDiv).hover(
 				function(){
-					window.clearInterval(intID);
+					clearTimer(intID);
 				},
 				function(){
-					if(clicked === 0)
-						intID = window.setInterval(function(){progressBar()}, interval);
+					if(pauseplay === "pause")
+						intID = startTimer();
 				}
-			)
+			);
 			
-			//If the pause button is clicked set the clicked variable to true and change the bg image to a play button and vice versa
-			$(pause).click(function(){
-				if(clicked === 0){
-					clicked = 1;
+			//If the pause button is clicked set the pauseplay variable to pause and change the bg image to a pause button and vice versa
+			$("." + pauseplay).click(function(){
+				if(pauseplay === "pause"){
+					pauseplay = "play";
 					$(this).removeClass("pause").addClass("play");
+					
 				}
 				else{
-					clicked = 0;
+					pauseplay = "pause";
 					$(this).removeClass("play").addClass("pause");
 				}
 			});
@@ -113,6 +124,20 @@
 				switchImages(index);
 					
 			});
+		}
+		
+		function startTimer(){
+			/*
+			  Set the setInterval ID so when the mouse hovers over the image we can use the setInterval ID to 
+			  destroy the current setInterval thus causing a "pause" in the timer
+			*/
+			var intID = window.setInterval(function(){progressBar()}, interval);
+			return intID;
+		}
+		
+		function clearTimer(id){
+			// Destroy the current setInterval
+			window.clearInterval(id);
 		}
 		
 		/*
@@ -146,21 +171,25 @@
 			img.each(function(i){
 				if(i === 0){
 					current = "current";
-					img.eq(i).css({ 
-									"position" : "absolute", 
-									"z-index"  : totalImages - i,
-									"width"    : timer.width,
-									"height"   : timer.height
-								 }).addClass("current");
+					img.eq(i)
+					   .css({ 
+							"position" : "absolute", 
+							"z-index"  : totalImages - i,
+							"width"    : timer.width,
+							"height"   : timer.height
+						   })
+					   .addClass("current");
 				}
 				else{
-					img.eq(i).css({ 
-									"position" : "absolute", 
-									"display"  : "none", 
-									"z-index"  : totalImages - i,
-									"width"    : timer.width,
-									"height"   : timer.height
-								 });
+					img.eq(i)
+					   .css({ 
+							"position" : "absolute", 
+							"display"  : "none", 
+							"z-index"  : totalImages - i,
+							"width"    : timer.width,
+							"height"   : timer.height
+						   });
+						   
 					current = "";
 				}
 				
